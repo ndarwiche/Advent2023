@@ -28,7 +28,7 @@ namespace Advent2023.GearRatios
             int currentNumber = 0;
             int sum = 0;
             var line = Lines[index];
-            char* charPtr = (char*) line.ToPointer();
+            char* charPtr = (char*)line.ToPointer();
             bool isValidNumber = false;
             for (int i = 0; i < LineSize; i++)
             {
@@ -59,7 +59,7 @@ namespace Advent2023.GearRatios
         {
             if (row > 0 && column > 0)
             {
-                char northLeft = *((char*) Lines[row - 1].ToPointer() + column - 1);
+                char northLeft = *((char*)Lines[row - 1].ToPointer() + column - 1);
                 //46 is ascii for '.'
                 if (!char.IsDigit(northLeft) && northLeft != 46)
                 {
@@ -69,7 +69,7 @@ namespace Advent2023.GearRatios
 
             if (row > 0)
             {
-                char north = *((char*) Lines[row - 1].ToPointer() + column);
+                char north = *((char*)Lines[row - 1].ToPointer() + column);
                 if (!char.IsDigit(north) && north != 46)
                 {
                     return true;
@@ -78,7 +78,7 @@ namespace Advent2023.GearRatios
 
             if (row > 0 && column < LineSize - 1)
             {
-                char northRight = *((char*) Lines[row - 1].ToPointer() + column + 1);
+                char northRight = *((char*)Lines[row - 1].ToPointer() + column + 1);
                 if (!char.IsDigit(northRight) && northRight != 46)
                 {
                     return true;
@@ -87,7 +87,7 @@ namespace Advent2023.GearRatios
 
             if (column > 0)
             {
-                char left = *((char*) Lines[row].ToPointer() + column - 1);
+                char left = *((char*)Lines[row].ToPointer() + column - 1);
                 if (!char.IsDigit(left) && left != 46)
                 {
                     return true;
@@ -96,7 +96,7 @@ namespace Advent2023.GearRatios
 
             if (column < LineSize - 1)
             {
-                char right = *((char*) Lines[row].ToPointer() + column + 1);
+                char right = *((char*)Lines[row].ToPointer() + column + 1);
                 if (!char.IsDigit(right) && right != 46)
                 {
                     return true;
@@ -106,7 +106,7 @@ namespace Advent2023.GearRatios
             int linesLength = Lines.Length;
             if (row < linesLength - 1 && column > 0)
             {
-                char southLeft = *((char*) Lines[row + 1].ToPointer() + column - 1);
+                char southLeft = *((char*)Lines[row + 1].ToPointer() + column - 1);
                 //46 is ascii for '.'
                 if (!char.IsDigit(southLeft) && southLeft != 46)
                 {
@@ -116,7 +116,7 @@ namespace Advent2023.GearRatios
 
             if (row < linesLength - 1)
             {
-                char south = *((char*) Lines[row + 1].ToPointer() + column);
+                char south = *((char*)Lines[row + 1].ToPointer() + column);
                 if (!char.IsDigit(south) && south != 46)
                 {
                     return true;
@@ -125,7 +125,7 @@ namespace Advent2023.GearRatios
 
             if (row < linesLength - 1 && column < LineSize - 1)
             {
-                char southRight = *((char*) Lines[row + 1].ToPointer() + column + 1);
+                char southRight = *((char*)Lines[row + 1].ToPointer() + column + 1);
                 if (!char.IsDigit(southRight) && southRight != 46)
                 {
                     return true;
@@ -154,12 +154,13 @@ namespace Advent2023.GearRatios
         {
             int sum = 0;
             var line = Lines[index];
-            char* charPtr = (char*) line.ToPointer();
+            char* charPtr = (char*)line.ToPointer();
             for (int i = 0; i < LineSize; i++)
             {
                 char c = *(charPtr + i);
                 if (c != 42) continue;
-                sum += SearchNeighborsForNumbers(index, i);
+                int x = SearchNeighborsForNumbers(index, i);
+                sum += x;
             }
 
             GearRatios[index] = sum;
@@ -175,7 +176,7 @@ namespace Advent2023.GearRatios
 
             if (row > 0 && column > 0)
             {
-                char northLeft = *((char*) Lines[row - 1].ToPointer() + column - 1);
+                char northLeft = *((char*)Lines[row - 1].ToPointer() + column - 1);
 
                 if (char.IsDigit(northLeft))
                 {
@@ -185,7 +186,7 @@ namespace Advent2023.GearRatios
 
             if (row > 0)
             {
-                char north = *((char*) Lines[row - 1].ToPointer() + column);
+                char north = *((char*)Lines[row - 1].ToPointer() + column);
                 if (char.IsDigit(north))
                 {
                     firstRow[1] = true;
@@ -194,7 +195,7 @@ namespace Advent2023.GearRatios
 
             if (row > 0 && column < LineSize - 1)
             {
-                char northRight = *((char*) Lines[row - 1].ToPointer() + column + 1);
+                char northRight = *((char*)Lines[row - 1].ToPointer() + column + 1);
                 if (char.IsDigit(northRight))
                 {
                     firstRow[2] = true;
@@ -203,7 +204,7 @@ namespace Advent2023.GearRatios
 
             if (column > 0)
             {
-                char left = *((char*) Lines[row].ToPointer() + column - 1);
+                char left = *((char*)Lines[row].ToPointer() + column - 1);
                 if (char.IsDigit(left))
                 {
                     secondRow[0] = true;
@@ -215,7 +216,7 @@ namespace Advent2023.GearRatios
 
             if (column < LineSize - 1)
             {
-                char right = *((char*) Lines[row].ToPointer() + column + 1);
+                char right = *((char*)Lines[row].ToPointer() + column + 1);
                 if (char.IsDigit(right))
                 {
                     secondRow[2] = true;
@@ -225,7 +226,7 @@ namespace Advent2023.GearRatios
             int linesLength = Lines.Length;
             if (row < linesLength - 1 && column > 0)
             {
-                char southLeft = *((char*) Lines[row + 1].ToPointer() + column - 1);
+                char southLeft = *((char*)Lines[row + 1].ToPointer() + column - 1);
                 if (char.IsDigit(southLeft))
                 {
                     thirdRow[0] = true;
@@ -234,7 +235,7 @@ namespace Advent2023.GearRatios
 
             if (row < linesLength - 1)
             {
-                char south = *((char*) Lines[row + 1].ToPointer() + column);
+                char south = *((char*)Lines[row + 1].ToPointer() + column);
                 if (char.IsDigit(south))
                 {
                     thirdRow[1] = true;
@@ -243,7 +244,7 @@ namespace Advent2023.GearRatios
 
             if (row < linesLength - 1 && column < LineSize - 1)
             {
-                char southRight = *((char*) Lines[row + 1].ToPointer() + column + 1);
+                char southRight = *((char*)Lines[row + 1].ToPointer() + column + 1);
                 if (char.IsDigit(southRight))
                 {
                     thirdRow[2] = true;
@@ -256,6 +257,7 @@ namespace Advent2023.GearRatios
 
             if (totalAdjacentNumber != 2)
             {
+                Debug.Log($"Non valid gear {row}, {column} , {totalAdjacentNumber}");
                 return 0;
             }
 
@@ -336,8 +338,10 @@ namespace Advent2023.GearRatios
 
             if (thirdRow[2] && !thirdRow[1])
             {
-                secondNumber = CalculateNumber(row - 1, column + 1);
+                secondNumber = CalculateNumber(row + 1, column + 1);
             }
+            if (firstNumber>999 || secondNumber >999)
+                Debug.Log($"r {row}, c {column}. 1 = {firstNumber}, 2 = {secondNumber}");
             return firstNumber * secondNumber;
         }
 
@@ -355,16 +359,16 @@ namespace Advent2023.GearRatios
 
         private unsafe int CalculateNumber(int row, int column)
         {
-            int result = *((char*) Lines[row].ToPointer() + column) - 48;
+            int result = *((char*)Lines[row].ToPointer() + column) - 48;
             int currentColumn = column - 1;
             int digitCounter = 1;
             //left
             while (currentColumn >= 0)
             {
-                char previousChar = *((char*) Lines[row].ToPointer() + currentColumn);
+                char previousChar = *((char*)Lines[row].ToPointer() + currentColumn);
                 if (!char.IsDigit(previousChar))
                     break;
-                result += (int) math.pow(10, digitCounter) * (previousChar - 48);
+                result += (int)math.pow(10, digitCounter) * (previousChar - 48);
                 digitCounter++;
                 currentColumn--;
             }
@@ -373,7 +377,7 @@ namespace Advent2023.GearRatios
             currentColumn = column + 1;
             while (currentColumn < LineSize)
             {
-                char nextChar = *((char*) Lines[row].ToPointer() + currentColumn);
+                char nextChar = *((char*)Lines[row].ToPointer() + currentColumn);
                 if (!char.IsDigit(nextChar))
                     break;
                 result *= 10;
@@ -398,7 +402,7 @@ namespace Advent2023.GearRatios
                 {
                     fixed (char* charPtr = lines[i])
                     {
-                        lineDatas[i] = (IntPtr) charPtr;
+                        lineDatas[i] = (IntPtr)charPtr;
                     }
                 }
             }
@@ -440,7 +444,7 @@ namespace Advent2023.GearRatios
                 {
                     fixed (char* charPtr = lines[i])
                     {
-                        lineDatas[i] = (IntPtr) charPtr;
+                        lineDatas[i] = (IntPtr)charPtr;
                     }
                 }
             }
@@ -455,8 +459,6 @@ namespace Advent2023.GearRatios
             stopwatch.Start();
             job.Schedule(lines.Length, 16).Complete();
             //job.Run(lines.Length);
-            stopwatch.Stop();
-            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
             int result = 0;
 
             foreach (int lineSum in job.GearRatios)
@@ -464,6 +466,8 @@ namespace Advent2023.GearRatios
                 result += lineSum;
             }
 
+            stopwatch.Stop();
+            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
             Debug.Log("Result  : " + result);
 
             job.Lines.Dispose();
