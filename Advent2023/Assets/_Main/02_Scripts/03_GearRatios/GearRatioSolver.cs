@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using Advent2023.UI;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -257,7 +258,6 @@ namespace Advent2023.GearRatios
 
             if (totalAdjacentNumber != 2)
             {
-                Debug.Log($"Non valid gear {row}, {column} , {totalAdjacentNumber}");
                 return 0;
             }
 
@@ -340,8 +340,7 @@ namespace Advent2023.GearRatios
             {
                 secondNumber = CalculateNumber(row + 1, column + 1);
             }
-            if (firstNumber>999 || secondNumber >999)
-                Debug.Log($"r {row}, c {column}. 1 = {firstNumber}, 2 = {secondNumber}");
+
             return firstNumber * secondNumber;
         }
 
@@ -394,6 +393,9 @@ namespace Advent2023.GearRatios
         public void SolvePart1()
         {
             var lines = File.ReadAllLines("Data/3/Input.txt");
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+            
             NativeArray<IntPtr> lineDatas = new(lines.Length, Allocator.TempJob);
             //Get a pointer for each line, Jobs will accept IntPtr as a native array type  
             unsafe
@@ -413,12 +415,8 @@ namespace Advent2023.GearRatios
                 lines[0].Length,
                 new NativeArray<int>(lines.Length, Allocator.TempJob)
             );
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
             job.Schedule(lines.Length, 16).Complete();
             //job.Run(lines.Length);
-            stopwatch.Stop();
-            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
             int result = 0;
 
             foreach (int lineSum in job.LineNumberSum)
@@ -426,16 +424,20 @@ namespace Advent2023.GearRatios
                 result += lineSum;
             }
 
-            Debug.Log("Result  : " + result);
 
             job.Lines.Dispose();
             job.LineNumberSum.Dispose();
+            stopwatch.Stop();
+            ResultUi.Instance.ShowResult(stopwatch.ElapsedTicks, result);
         }
 
 
         public void SolvePart2()
         {
             var lines = File.ReadAllLines("Data/3/Input.txt");
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+
             NativeArray<IntPtr> lineDatas = new(lines.Length, Allocator.TempJob);
             //Get a pointer for each line, Jobs will accept IntPtr as a native array type  
             unsafe
@@ -455,8 +457,6 @@ namespace Advent2023.GearRatios
                 lines[0].Length,
                 new NativeArray<int>(lines.Length, Allocator.TempJob)
             );
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
             job.Schedule(lines.Length, 16).Complete();
             //job.Run(lines.Length);
             int result = 0;
@@ -466,12 +466,10 @@ namespace Advent2023.GearRatios
                 result += lineSum;
             }
 
-            stopwatch.Stop();
-            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
-            Debug.Log("Result  : " + result);
-
             job.Lines.Dispose();
             job.GearRatios.Dispose();
+            stopwatch.Stop();
+            ResultUi.Instance.ShowResult(stopwatch.ElapsedTicks, result);
         }
     }
 }

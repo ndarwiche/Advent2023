@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using UnityEngine;
 using System.IO;
+using Advent2023.UI;
 using Unity.Collections;
 using Unity.Jobs;
 using Debug = UnityEngine.Debug;
@@ -170,6 +171,8 @@ namespace Advent2023.CubeConundrum
         public void SolvePart1()
         {
             var lines = File.ReadAllLines("Data/2/Input.txt");
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             NativeArray<IntPtr> lineDatas = new(lines.Length, Allocator.TempJob);
             //Get a pointer for each line, Jobs will accept IntPtr as a native array type  
             unsafe
@@ -195,12 +198,8 @@ namespace Advent2023.CubeConundrum
                 LineSizes = lineLengths,
                 IsValidArray = new(lines.Length, Allocator.TempJob),
             };
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
             job.Schedule(lines.Length, 16).Complete();
             //job.Run(lines.Length);
-            stopwatch.Stop();
-            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
 
             //Sum the indices of the valid games
             int result = 0;
@@ -209,17 +208,20 @@ namespace Advent2023.CubeConundrum
                 result += job.IsValidArray[i] ? i + 1 : 0;
             }
 
-            Debug.Log("Result  : " + result);
-
             job.Lines.Dispose();
             job.IsValidArray.Dispose();
             job.LineSizes.Dispose();
+            stopwatch.Stop();
+            ResultUi.Instance.ShowResult(stopwatch.ElapsedTicks, result);
         }
 
 
         public void SolvePart2()
         {
             var lines = File.ReadAllLines("Data/2/Input.txt");
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+            
             NativeArray<IntPtr> lineDatas = new(lines.Length, Allocator.TempJob);
             //Get a pointer for each line, Jobs will accept IntPtr as a native array type  
             unsafe
@@ -245,12 +247,8 @@ namespace Advent2023.CubeConundrum
                 LineSizes = lineLengths,
                 CubePowers = new(lines.Length, Allocator.TempJob),
             };
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
             job.Schedule(lines.Length, 16).Complete();
             //job.Run(lines.Length);
-            stopwatch.Stop();
-            Debug.Log("Elapsed ticks : " + stopwatch.ElapsedTicks);
 
             //Sum the power of cubes
             int result = 0;
@@ -259,11 +257,12 @@ namespace Advent2023.CubeConundrum
                 result += job.CubePowers[i];
             }
 
-            Debug.Log("Result  : " + result);
 
             job.Lines.Dispose();
             job.CubePowers.Dispose();
             job.LineSizes.Dispose();
+            stopwatch.Stop();
+            ResultUi.Instance.ShowResult(stopwatch.ElapsedTicks, result);
         }
     }
 }
