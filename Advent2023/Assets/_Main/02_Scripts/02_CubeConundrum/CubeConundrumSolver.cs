@@ -3,12 +3,14 @@ using System.Diagnostics;
 using UnityEngine;
 using System.IO;
 using Advent2023.UI;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Debug = UnityEngine.Debug;
 
 namespace Advent2023.CubeConundrum
 {
+    [BurstCompile]
     public struct CubeConundrumPart1Job : IJobParallelFor
     {
         public NativeArray<IntPtr> Lines;
@@ -22,7 +24,7 @@ namespace Advent2023.CubeConundrum
             int blueCount = 0;
             int greenCount = 0;
             var line = Lines[index];
-            char* charPtr = (char*) line.ToPointer();
+            char* charPtr = (char*)line.ToPointer();
             bool isValid = true;
             //Start from 8, so we can skip "Game x: " 
             for (int i = 8; i < LineSizes[index]; i++)
@@ -88,6 +90,7 @@ namespace Advent2023.CubeConundrum
         }
     }
 
+    [BurstCompile]
     public struct CubeConundrumPart2Job : IJobParallelFor
     {
         public NativeArray<IntPtr> Lines;
@@ -104,7 +107,7 @@ namespace Advent2023.CubeConundrum
             int maxGreen = 0;
             int maxBlue = 0;
             var line = Lines[index];
-            char* charPtr = (char*) line.ToPointer();
+            char* charPtr = (char*)line.ToPointer();
             //Start from 8, so we can skip "Game x: " 
             for (int i = 8; i < LineSizes[index]; i++)
             {
@@ -157,6 +160,7 @@ namespace Advent2023.CubeConundrum
                     currentNumber = 0;
                 }
             }
+
             //one last check for last set that doesn't end with ;
             maxRed = redCount > maxRed ? redCount : maxRed;
             maxBlue = blueCount > maxBlue ? blueCount : maxBlue;
@@ -181,7 +185,7 @@ namespace Advent2023.CubeConundrum
                 {
                     fixed (char* charPtr = lines[i])
                     {
-                        lineDatas[i] = (IntPtr) charPtr;
+                        lineDatas[i] = (IntPtr)charPtr;
                     }
                 }
             }
@@ -221,7 +225,7 @@ namespace Advent2023.CubeConundrum
             var lines = File.ReadAllLines("Data/2/Input.txt");
             Stopwatch stopwatch = new();
             stopwatch.Start();
-            
+
             NativeArray<IntPtr> lineDatas = new(lines.Length, Allocator.TempJob);
             //Get a pointer for each line, Jobs will accept IntPtr as a native array type  
             unsafe
@@ -230,7 +234,7 @@ namespace Advent2023.CubeConundrum
                 {
                     fixed (char* charPtr = lines[i])
                     {
-                        lineDatas[i] = (IntPtr) charPtr;
+                        lineDatas[i] = (IntPtr)charPtr;
                     }
                 }
             }

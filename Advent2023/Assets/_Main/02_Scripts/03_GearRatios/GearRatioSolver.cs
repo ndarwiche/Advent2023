@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Advent2023.UI;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -10,6 +11,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Advent2023.GearRatios
 {
+    [BurstCompile]
     public struct GearRatiosPart1Job : IJobParallelFor
     {
         [NativeDisableParallelForRestriction] public readonly NativeArray<IntPtr> Lines;
@@ -137,6 +139,8 @@ namespace Advent2023.GearRatios
         }
     }
 
+    
+    [BurstCompile]
     public struct GearRatiosPart2Job : IJobParallelFor
     {
         [NativeDisableParallelForRestriction] public readonly NativeArray<IntPtr> Lines;
